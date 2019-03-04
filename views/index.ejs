@@ -45,7 +45,6 @@
         button.addEventListener('click', (e) => {
             var em = email.value;
             var pas = password.value;
-            console.log(em, pas);
 
             firebase.auth().signInWithEmailAndPassword(em, pas)
                 .then(user => {
@@ -55,7 +54,8 @@
                 }).then(() => {
                     return firebase.auth().signOut();
                 }).then(() => {
-                    window.location.assign('/protected');
+                    // window.location.assign('/protected');
+                    console.log("sdvd");
                 }).catch((err) => {
                     console.log(err);
                 })
