@@ -1,4 +1,4 @@
-const express=require('express');
+const express = require('express');
 const app = express();
 const path =require('path');
 
@@ -17,7 +17,7 @@ admin.initializeApp({
 })
 
 app.get('/',(req,res)=>{
-    res.send('COnnected');
+    res.send('Connected');
 })
 
 app.get('/login',(req,res)=>{
@@ -25,19 +25,15 @@ app.get('/login',(req,res)=>{
 })
 
 
-app.post('/login',(req,res)=>{
+app.post('/login', async (req,res)=>{
     console.log('got the request');
     const idToken = req.body.idToken + '';
     const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
-    admin.auth().createSessionCookie(idToken,{expiresIn}).then((sessionCookie)=>{
-        const options = {maxAge:expiresIn,httpOnly:true,secure:true};
-        res.cookie('session',sessionCookie,options);
-        res.end(JSON.stringify({status:'success'}))
-    },error=>{
-        console.log(error);
-        res.status(401).send("UNAUTHORIZED REQUEST");
-    })
+    const sessionCookie = await admin.auth().createSessionCookie(idToken,{expiresIn});
+    const options = {maxAge: expiresIn, httpOnly: true, secure: false, domain: 'localhost'};
+    res.cookie('session', sessionCookie, options);
+    res.status(200).json({status: 'success'});
 })
 
 app.get('/protected',(req,res)=>{
