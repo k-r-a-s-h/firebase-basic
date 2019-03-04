@@ -1,0 +1,19 @@
+{
+  "name": "firebase_basics_login_adminsdk",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "krishna",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie-parser": "^1.4.4",
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "firebase": "^5.8.5",
+    "firebase-admin": "^7.0.0"
+  }
+}

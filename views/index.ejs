@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    Email:<input type="email" name="email" id="email" /><br>
+    Password: <input type="password" name="password" id="password" />
+    <button id='submit' name="submit">Submit</button>
+
+<script src="https://www.gstatic.com/firebasejs/5.8.5/firebase.js"></script>
+<script>
+  // Initialize Firebase
+
+
+  var config = {
+    apiKey: "AIzaSyBH0MBpHcIPUvYsxN0n0kUKX6u622U1NOE",
+    authDomain: "basic-devlopment.firebaseapp.com",
+    databaseURL: "https://basic-devlopment.firebaseio.com",
+    projectId: "basic-devlopment",
+    storageBucket: "basic-devlopment.appspot.com",
+    messagingSenderId: "447093988782"
+};
+  firebase.initializeApp(config);
+  firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE);
+  var button= document.getElementById('submit');
+  var email=document.getElementById('email');
+  var password=document.getElementById('password');
+
+  button.addEventListener('click',(e)=>{
+    var em=email.value;
+    var pas=password.value;
+    console.log('this worked');
+    firebase.auth().signInWithEmailAndPassword(em,pas)
+        .then(user=>{
+                firebase.auth().onAuthStateChanged((user)=>{
+                    if(user){
+                        return user.getIdToken().then(idToken=>{
+                            return postIdTokenToSessionLogin('/login',idToken);
+                        })
+
+                    }
+                })
+                
+
+            
+        
+           
+        })
+            .then(()=>{
+                return firebase.auth().signOut();
+
+            })
+            .then(()=>{
+                window.location.assign('/protected');
+            })
+  })
+
+  firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        console.log(user); 
+        console.log(firebase.auth().user); 
+        user.getIdToken().then(function(idToken) {  
+           console.log(idToken); 
+        });
+    }
+});
+</script>
+</body>
+</html>
